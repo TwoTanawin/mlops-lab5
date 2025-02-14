@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  AthenaNamedQuery:
+    Type: AWS::Athena::NamedQuery
+    Properties:
+      Database: "taxidata"
+      Description: "A query that selects all fares over $10.00 (US)"
+      Name: "FaresOver10DollarsUS"
+      QueryString: |
+        SELECT distance, paytype, fare, tip, tolls, surcharge, total
+        FROM yellow
+        WHERE total >= 10.0
+        ORDER BY total DESC
+
+Outputs:
+  AthenaNamedQueryOutput:
+    Value: !Ref AthenaNamedQuery
+    Description: "Reference to the created Athena Named Query"
